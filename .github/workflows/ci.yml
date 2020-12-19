@@ -21,16 +21,17 @@ jobs:
           repository: wxWidgets/wxWidgets
           ref: WX_3_0_BRANCH
           path: wxwidgets
-      - name: Build wxwidgets
+      - name: Build everything
         run: |
           set -ex
+          WX_PREFIX="$HOME/wx-install"
           cd wxwidgets
           ./configure --prefix="$HOME/wx-install" --with-cocoa --with-macosx-version-min=10.9 --disable-shared
-          make
+          make -j3
           make install
-      - name: Build OTP
-        run: |
-          set -ex
+          PATH="${PATH}:${WX_PREFIX}/bin"
+          cd ..
+          which wx-config && wx-config --version-full
           kerl/kerl build 22.0.7
           kerl/kerl install 22.0.7 my_release
           tar -czvf my_release.tar.gz my_release/*
@@ -42,8 +43,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
