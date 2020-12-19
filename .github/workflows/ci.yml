@@ -18,6 +18,6 @@ jobs:
       - name: Build
         run: |
           set -ex
-          ~/kerl/kerl build 22.0.7
+          kerl/kerl build 22.0.7
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
