@@ -26,7 +26,7 @@ jobs:
           ref: WX_3_0_BRANCH
           path: wxwidgets
       - name: Build wxWidgets
-        if: ${{ matrix.headless = 'false' }}
+        if: ${{ matrix.headless == 'false' }}
         shell: bash
         run: |
           set -ex
