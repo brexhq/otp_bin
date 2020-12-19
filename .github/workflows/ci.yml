@@ -14,11 +14,11 @@ jobs:
         run: |
           set -ex
           OTP_DOWNLOAD_URL="https://github.com/erlang/otbp/archive/OTP-${OTP_VERSION}.tar.gz"
-	        OTP_DOWNLOAD_SHA256="${OTP_DOWNLOAD_SHA256}" 
-	        curl -fSL -o otp-src.tar.gz "${OTP_DOWNLOAD_URL}" 
-	        echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - 
-	        export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}"
+          OTP_DOWNLOAD_SHA256="${OTP_DOWNLOAD_SHA256}" 
+          curl -fSL -o otp-src.tar.gz "${OTP_DOWNLOAD_URL}" 
+          echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - 
+          export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}"
           mkdir -vp ${ERL_TOP}
-	        tar -xzvf otp-src.tar.gz -C ${ERL_TOP} --strip-components=1
+          tar -xzvf otp-src.tar.gz -C ${ERL_TOP} --strip-components=1
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
