@@ -10,18 +10,14 @@ jobs:
     steps:
       - name: checkout this repo
         uses: actions/checkout@v2
+      - name: checkout kerl repo
+        uses: actions/checkout@v2
+        with:
+          repository: kerl/kerl
+          path: kerl
       - name: Build
         run: |
           set -ex
-          OTP_VERSION=22.0.7
-          OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz"
-          curl -fSL -o otp-src.tar.gz "${OTP_DOWNLOAD_URL}"
-          export ERL_TOP="$HOME/otp_src"
-          mkdir -vp ${ERL_TOP}
-          tar -xzf otp-src.tar.gz -C ${ERL_TOP} --strip-components=1
-          cd ${ERL_TOP}
-          ./otp_build autoconf
-          ./configure --build="x86_64-apple-darwin" --without-wx --without-megaco --without-debugger --without-observer --without-eldap --without-odbc --without-snmp --without-mnesia --without-et --without-diameter --without-termcap --enable-builtin-zlib
-          make -j8
+          ~/kerl/kerl build 22.0.7
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
