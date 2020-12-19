@@ -13,6 +13,8 @@ jobs:
       - name: Build
         run: |
           set -ex
+          OTP_VERSION=22.0.7
+          OTP_DOWNLOAD_SHA256=04c090b55ec4a01778e7e1a5b7fdf54012548ca72737965b7aa8c4d7878c92bc
           OTP_DOWNLOAD_URL="https://github.com/erlang/otbp/archive/OTP-${OTP_VERSION}.tar.gz"
           OTP_DOWNLOAD_SHA256="${OTP_DOWNLOAD_SHA256}" 
           curl -fSL -o otp-src.tar.gz "${OTP_DOWNLOAD_URL}" 
