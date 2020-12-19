@@ -19,7 +19,7 @@ jobs:
         run: |
           set -ex
           kerl/kerl build 22.0.7
-          kerl install 22.0.7 my_release
+          kerl/kerl install 22.0.7 my_release
           tar -czvf my_release.tar.gz my_release/*
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
