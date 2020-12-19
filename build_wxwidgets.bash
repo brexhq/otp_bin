@@ -10,6 +10,7 @@ case $(uname -s) in
         ./configure --prefix="$WXWIDGETS_INSTALL_PREFIX" --with-cocoa --with-macosx-version-min=10.9 --disable-shared
         ;;
     Linux)
+        sudo apt install libgtk-3-dev
         export CFLAGS=-fPIC
         export CXXFLAGS=-fPIC
         ./configure --prefix="$WXWIDGETS_INSTALL_PREFIX" --disable-shared
