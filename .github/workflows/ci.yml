@@ -8,8 +8,8 @@ jobs:
   macos:
     strategy:
       matrix:
-        wx: [headless, graphical]
         platform: [ubuntu-latest, macos-latest]
+        wx: [headless, graphical]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: checkout this repo
@@ -35,6 +35,7 @@ jobs:
         run: |
           set -ex
           PATH="${PATH}:${HOME}/wx-install/bin"
+          export KERL_CONFIGURE_DISABLE_APPLICATIONS="megaco eldap snmp mnesia et diameter"
           kerl/kerl build ${OTP_RELEASE}
           kerl/kerl install ${OTP_RELEASE} my_release
           tar -czf my_release.tar.gz my_release/*
