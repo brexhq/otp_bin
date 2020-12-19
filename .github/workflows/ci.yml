@@ -2,11 +2,15 @@ name: CI
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+env:
+  OTP_RELEASE: 22.0.7
 jobs:
   macos:
-    runs-on: macOS-latest
+    strategy:
+      matrix:
+        headless: [true, false]
+        platform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
       - name: checkout this repo
         uses: actions/checkout@v2
@@ -21,19 +25,18 @@ jobs:
           repository: wxWidgets/wxWidgets
           ref: WX_3_0_BRANCH
           path: wxwidgets
-      - name: Build everything
+      - name: Build wxWidgets
+        if: ${{ matrix.headless = 'false' }}
+        shell: bash
         run: |
           set -ex
-          WX_PREFIX="$HOME/wx-install"
-          cd wxwidgets
-          ./configure --prefix="$HOME/wx-install" --with-cocoa --with-macosx-version-min=10.9 --disable-shared
-          make -j3
-          make install
-          PATH="${PATH}:${WX_PREFIX}/bin"
-          cd ..
-          which wx-config && wx-config --version-full
-          kerl/kerl build 22.0.7
-          kerl/kerl install 22.0.7 my_release
+          ./build_wxwidgets.bash wxwidgets ~/wx-install
+      - name: Build OTP
+        run: |
+          set -ex
+          PATH="${PATH}:${HOME}/wx-install/bin"
+          kerl/kerl build ${OTP_RELEASE}
+          kerl/kerl install ${OTP_RELEASE} my_release
           tar -czf my_release.tar.gz my_release/*
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
