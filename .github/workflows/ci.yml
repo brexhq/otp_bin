@@ -15,7 +15,20 @@ jobs:
         with:
           repository: kerl/kerl
           path: kerl
-      - name: Build
+      - name: checkout wxwidgets repo
+        uses: actions/checkout@v2
+        with:
+          repository: wxWidgets/wxWidgets
+          ref: WX_3_0_BRANCH
+          path: wxwidgets
+      - name: Build wxwidgets
+        run: |
+          set -ex
+          cd wxwidgets
+          ./configure --prefix="$HOME/wx-install" --with-cocoa --with-macosx-version-min=10.9 --disable-shared
+          make
+          make install
+      - name: Build OTP
         run: |
           set -ex
           kerl/kerl build 22.0.7
