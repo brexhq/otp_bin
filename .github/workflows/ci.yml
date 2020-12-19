@@ -8,7 +8,7 @@ jobs:
   macos:
     strategy:
       matrix:
-        headless: [true, false]
+        wx: [headless, graphical]
         platform: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -26,7 +26,7 @@ jobs:
           ref: WX_3_0_BRANCH
           path: wxwidgets
       - name: Build wxWidgets
-        if: ${{ matrix.headless == 'false' }}
+        if: ${{ matrix.wx == 'graphical' }}
         shell: bash
         run: |
           set -ex
@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: tag-${{ github.ref }}
+          tag_name: ${{ matrix.platform }}-${{ matrix.wx }}-${{ github.sha }}
           release_name: Release ${{ github.sha }}
           draft: false
           prerelease: false
