@@ -12,7 +12,7 @@ case $(uname -s) in
     Linux)
         export CFLAGS=-fPIC
         export CXXFLAGS=-fPIC
-        ./configure --prefix="WXWIDGETS_INSTALL_PREFIX" --disable-shared
+        ./configure --prefix="$WXWIDGETS_INSTALL_PREFIX" --disable-shared
     ;;
 esac
 
