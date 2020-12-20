@@ -5,7 +5,20 @@ on:
 env:
   OTP_RELEASE: 22.0.7
 jobs:
-  build_and_release:
+  create_release:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: release-{{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+  build_and_upload:
     strategy:
       matrix:
         platform: [ubuntu-18.04, macos-10.15]
@@ -44,12 +57,7 @@ jobs:
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
           INCLUDE_OTP_SRC: ${{ matrix.src }}
-      - name: Upload release artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.platform }}-${{ matrix.wx }}-${{ matrix.src }}
-          path: math-homework.txt
-      - name: Upload Release Asset
+      - name: Upload Release asset
         id: upload-release-asset 
         needs: create_release
         uses: actions/upload-release-asset@v1
@@ -57,21 +65,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./my_release.tar.gz
           asset_name: otp_${{ env.OTP_RELEASE }}.tar.gz
           asset_content_type: application/gzip
-  create_release:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: release-{{ github.sha }}
-          release_name: Release ${{ github.sha }}
-          draft: false
-          prerelease: false
 
 
 
