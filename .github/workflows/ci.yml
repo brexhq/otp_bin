@@ -37,11 +37,11 @@ jobs:
           PATH="${PATH}:${HOME}/wx-install/bin"
           export KERL_CONFIGURE_DISABLE_APPLICATIONS="megaco eldap snmp mnesia et diameter"
           kerl/kerl build ${OTP_RELEASE}
-          kerl/kerl install ${OTP_RELEASE} my_release
-          tar -czf my_release.tar.gz my_release/*
           echo '================================================================================================================================'
           cat ~/.kerl/builds/22.0.7/otp_build_22.0.7.log
           echo '================================================================================================================================'
+          kerl/kerl install ${OTP_RELEASE} my_release
+          tar -czf my_release.tar.gz my_release/*
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
       - name: Create Release
