@@ -25,6 +25,7 @@ jobs:
         wx: [headless, graphical]
         src: [src, no-src]
     runs-on: ${{ matrix.platform }}
+    needs: create_release
     steps:
       - name: checkout this repo
         uses: actions/checkout@v2
@@ -59,7 +60,6 @@ jobs:
           INCLUDE_OTP_SRC: ${{ matrix.src }}
       - name: Upload Release asset
         id: upload-release-asset 
-        needs: create_release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
