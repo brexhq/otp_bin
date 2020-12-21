@@ -16,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: release-${{ github.sha }}
+          tag_name: run-${{ github.run_id }}
           release_name: Release ${{ github.sha }}
           draft: false
           prerelease: false
@@ -37,6 +37,7 @@ jobs:
           repository: kerl/kerl
           path: kerl
       - name: checkout wxwidgets repo
+        if: ${{ matrix.wx == 'graphical' }}
         uses: actions/checkout@v2
         with:
           repository: wxWidgets/wxWidgets
@@ -49,6 +50,7 @@ jobs:
           set -ex
           ./build_wxwidgets.bash wxwidgets ~/wx-install
       - name: Build OTP
+        shell: bash
         run: |
           set -ex
           PATH="${PATH}:${HOME}/wx-install/bin"
