@@ -3,7 +3,7 @@
 WXWIDGETS_SOURCE_DIRECTORY="$1"
 WXWIDGETS_INSTALL_PREFIX="$2"
 
-cd $WXWIDGETS_SOURCE_DIRECTORY
+pushd $WXWIDGETS_SOURCE_DIRECTORY
 
 case $(uname -s) in
     Darwin)
@@ -19,3 +19,4 @@ esac
 
 make -j3
 make install
+popd
