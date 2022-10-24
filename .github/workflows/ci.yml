@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [otp-24.1]
 env:
-  OTP_RELEASE: 22.0.7
+  OTP_RELEASE: 24.1
 jobs:
   create_release:
     runs-on: ubuntu-18.04
