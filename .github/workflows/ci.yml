@@ -1,9 +1,10 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [OTP-22.0.7-reproducible-builds]
 env:
-  OTP_RELEASE: 22.0.7
+  OTP_FORK: git@github.com:smocherla-brex/otp.git
+  OTP_BRANCH: OTP-22.0.7-reproducible-builds
 jobs:
   create_release:
     runs-on: ubuntu-18.04
@@ -55,7 +56,7 @@ jobs:
           set -ex
           PATH="${PATH}:${HOME}/wx-install/bin"
           export KERL_CONFIGURE_DISABLE_APPLICATIONS="megaco eldap snmp mnesia et diameter"
-          kerl/kerl build ${OTP_RELEASE}
+          kerl/kerl build git ${OTP_FORK} ${OTP_BRANCH}
           RELEASE_DIR="R${OTP_RELEASE}"
           kerl/kerl install ${OTP_RELEASE} ${RELEASE_DIR}
           [[ $INCLUDE_OTP_SRC == 'no-src' ]] && rm -rf ${RELEASE_DIR}/lib/*/src
