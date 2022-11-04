@@ -3,7 +3,7 @@ on:
   push:
     branches: [OTP-22.0.7-reproducible-builds]
 env:
-  OTP_FORK: git@github.com:smocherla-brex/otp.git
+  OTP_FORK: https://github.com/smocherla-brex/otp.git
   OTP_BRANCH: OTP-22.0.7-reproducible-builds
 jobs:
   create_release:
