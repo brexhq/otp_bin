@@ -56,7 +56,7 @@ jobs:
           set -ex
           PATH="${PATH}:${HOME}/wx-install/bin"
           export KERL_CONFIGURE_DISABLE_APPLICATIONS="megaco eldap snmp mnesia et diameter"
-          kerl/kerl build git ${OTP_FORK} ${OTP_BRANCH}
+          kerl/kerl build git ${OTP_FORK} ${OTP_BRANCH} R22.0.7
           RELEASE_DIR="R${OTP_RELEASE}"
           kerl/kerl install ${OTP_RELEASE} ${RELEASE_DIR}
           [[ $INCLUDE_OTP_SRC == 'no-src' ]] && rm -rf ${RELEASE_DIR}/lib/*/src
